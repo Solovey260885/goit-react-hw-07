@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 import { useId } from "react";
 import css from "../ContactForm/ContactForm.module.css";
 import { useDispatch } from "react-redux";
-import { addContact } from "../../redux/contactsSlice";
+import { addContacts } from "../../redux/contactsOps";
 
 const phoneRegExp =
   /^(\+?\d{1,4}[\s-]?)?\(?\d{1,4}?\)?[\s-]?\d{1,4}[\s-]?\d{1,9}$/;
@@ -32,8 +32,7 @@ export default function ContactForm() {
 
   const handleSubmit = (values, actions) => {
     dispatch(
-      addContact({
-        id: nanoid(),
+      addContacts({
         name: values.name,
         number: values.number,
       })

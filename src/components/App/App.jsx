@@ -1,34 +1,29 @@
-// import { useEffect, useState } from "react";
-
 import ContactForm from "../ContactForm/ContactForm";
 import SearchBox from "../SearchBox/SearchBox";
 import ContactList from "../ContactList/ContactList";
-// import initialContact from "../../contactData.json";
+import { fetchContacts } from "../../redux/contactsOps";
 
 import css from "./App.module.css";
-
-// const getInitialValues = () => {
-//   const savedValues = window.localStorage.getItem("my-contacts");
-//   return savedValues !== null ? JSON.parse(savedValues) : initialContact;
-// };
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import Loader from "../Loader/Loader";
+import Error from "../Error/Error";
 
 export default function App() {
-  // const [contacts, setContacts] = useState(getInitialValues);
-  // const [filter, setFilter] = useState("");
+  const loading = useSelector((state) => state.contacts.loading);
+  const error = useSelector((state) => state.contacts.error);
 
-  // const deleteContact = (contactId) => {
-  //   setContacts((prevContacts) => {
-  //     return prevContacts.filter((contact) => contact.id !== contactId);
-  //   });
-  // };
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   window.localStorage.setItem("my-contacts", JSON.stringify(contacts));
-  // }, [contacts]);
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <div className={css.App}>
       <h1 className={css.AppTitle}>Phonebook</h1>
+      {loading && <Loader>Loading message</Loader>}
+      {error && <Error>Error message</Error>}
       <ContactForm />
       <SearchBox />
       <ContactList />
